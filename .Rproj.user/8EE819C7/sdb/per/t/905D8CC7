@@ -1,0 +1,18 @@
+{
+    "contents" : "# Exploratory Data Analysis\nsetwd(\"C:/Users/daniele.parenti/Dropbox/R/R Specialisation/datasciencecoursera/Exploratory Data Analysis\")\nlibrary(dplyr)\nlibrary(tidyr)\nlibrary(data.table)\nlibrary(readr)\nlibrary(lubridate)\n\n# Quesiton:\n# Which counties in the United States have the highest levels of ambient ozone pollution?\n\nozone<-read_csv(\"hourly_44201_2014.csv\",col_types = \"ccnccnnccccccncnnccccccc\")\nnames(ozone)<-make.names(names(ozone))\n\ndim(ozone)\nstr(ozone)\nhead(ozone[,c(6:7,10)])\ntail(ozone[,c(6:7,10)])\n\ntable(ozone$Time.Local)\n\nselect(ozone,State.Name)%>%unique%>%nrow\nunique(ozone$State.Name)\nsummary(ozone$Sample.Measurement)\nquantile(ozone$Sample.Measurement,seq(0,1,0.1))\n\nranking<-tbl_df(ozone) %>% group_by(State.Name,County.Name) %>%\n    summarize(ozonemean=mean(Sample.Measurement)) %>%\n    as.data.frame %>% arrange(desc(ozonemean))\n\nhead(ranking,10)\n\nfilter(ozone,State.Name==\"California\" & County.Name == \"Mariposa\") %>% nrow\n\nozone<-mutate(ozone,Date.Local=ymd(Date.Local))\n\nozone<-tbl_df(ozone)\n\nfilter(ozone,State.Name==\"California\" & County.Name==\"Mariposa\") %>%\n    mutate(month=factor(months(Date.Local),levels=month.name)) %>%\n    group_by(month) %>%\n    summarize(ozone=mean(Sample.Measurement))\n\nfilter(ozone,State.Name==\"Oklahoma\" & County.Name==\"Caddo\") %>%\n    mutate(month=factor(months(Date.Local),levels=month.name)) %>%\n    group_by(month) %>%\n    summarize(ozone=mean(Sample.Measurement))\n",
+    "created" : 1439803644271.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3614890976",
+    "id" : "905D8CC7",
+    "lastKnownWriteTime" : 1439809209,
+    "path" : "C:/Users/daniele.parenti/Dropbox/R/R Specialisation/datasciencecoursera/Exploratory Data Analysis/week0.R",
+    "project_path" : "Exploratory Data Analysis/week0.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

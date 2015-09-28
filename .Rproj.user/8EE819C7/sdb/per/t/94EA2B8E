@@ -1,0 +1,18 @@
+{
+    "contents" : "# Exploratory graphs\n\npm25<-read_csv(\"daily_88101_2015.csv\",col_types = \"ccccinncccccccinnnnnccccccccc\")\nnames(pm25)<-make.names(names(pm25))\n\nfivenum(pm25$Arithmetic.Mean)\nsummary(pm25$Arithmetic.Mean)\n\nboxplot(pm25$Arithmetic.Mean,col=\"blue\")\nabline(h=12)\nfilter(pm25,Arithmetic.Mean > 25) %>% select(State.Name,County.Name,Arithmetic.Mean) %>%\n    arrange(desc(Arithmetic.Mean))\n\ninstall.packages(\"maps\")\nlibrary(maps)\n\nmap(\"county\",\"california\")\nwith(filter(pm25,Arithmetic.Mean>99),points(Longitude,Latitude))\n\nhist(pm25$Arithmetic.Mean, col=\"green\",breaks=100)\nabline(v=12,lwd=2)\nabline(v=median(pm25$Arithmetic.Mean),lwd=3,col=\"red\")\nrug(pm25$Arithmetic.Mean)\n\nboxplot(pm25$Arithmetic.Mean ~ pm25$Sample.Duration, col=\"blue\")\n\n# Plotting Systems\n\ndata(\"airquality\")\nwith(airquality,{\n    plot(Temp,Ozone)\n    lines(loess.smooth(Temp,Ozone))\n})\n\nlibrary(lattice)\nstate <- data.frame(state.x77, region = state.region)\nxyplot(Life.Exp ~ Income | region, data = state, layout = c(4, 1))\n\nlibrary(ggplot2)\ndata(mpg)\nqplot(displ,hwy,data=mpg)\n",
+    "created" : 1439815266954.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "83837174",
+    "id" : "94EA2B8E",
+    "lastKnownWriteTime" : 1439819689,
+    "path" : "C:/Users/daniele.parenti/Dropbox/R/R Specialisation/datasciencecoursera/Exploratory Data Analysis/exploratory graphs.R",
+    "project_path" : "Exploratory Data Analysis/exploratory graphs.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
